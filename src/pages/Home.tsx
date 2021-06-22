@@ -11,7 +11,7 @@ import { useHistory } from 'react-router'
 function Home(){
   const history = useHistory()
 
-  function navigationToNewRoom() {
+  function handleCreateRoom() {
     history.push('/rooms/new')
   }
 
@@ -25,7 +25,7 @@ function Home(){
       <main>
         <div className="main-content">
           <img src={logoImg} alt="Letmeask" />
-          <button onClick={navigationToNewRoom} className="create-room">
+          <button onClick={handleCreateRoom} className="create-room">
             <img src={googleIconImg} alt="Logo do Google" />
             Crie sua sala com o Google
           </button>
