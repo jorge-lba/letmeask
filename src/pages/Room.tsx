@@ -132,7 +132,15 @@ function Room() {
           </div>
         </form>
 
-        {JSON.stringify(questions)}
+        {questions.map(question => {
+          return (
+            <div style={
+              {padding: '10px'}
+            }>
+              <span><b>{question.author.name} :</b> {question.content}</span>
+            </div>
+          )
+        })}
       </main>
     </div>
   )
