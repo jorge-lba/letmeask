@@ -1,3 +1,4 @@
+import { useParams } from 'react-router'
 import logoImg from '../assets/images/logo.svg'
 
 import { Button } from '../components/Button'
@@ -5,13 +6,19 @@ import { RoomCode } from '../components/RoomCode'
 
 import '../styles/room.scss'
 
+type RoomParamsType = {
+  id: string
+}
+
 function Room() {
+  const { id } = useParams<RoomParamsType>()
+
   return(
     <div id="page-room">
       <header>
         <div className="content">
           <img src={logoImg} alt="Letmeask" />
-          <RoomCode />
+          <RoomCode code={ id }/>
         </div>
       </header>
       
