@@ -40,6 +40,8 @@ function Room() {
     }
 
     await database.ref(`/rooms/${roomId}/questions`).push(ask)
+
+    setNewQuestion('')
   }
 
   return(
