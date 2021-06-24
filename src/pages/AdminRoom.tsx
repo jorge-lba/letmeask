@@ -16,38 +16,10 @@ type RoomParamsType = {
 }
 
 function AdminRoom() {
-  const { user } = useAuth()
   const { id: roomId } = useParams<RoomParamsType>()
-  const [ newQuestion, setNewQuestion ] = useState('')
 
   const { questions, title } = useRoom(roomId)
   
-  async function handleSendQuestion(event: FormEvent) {
-    event.preventDefault()
-
-    const question = newQuestion.trim()
-
-    if(question === '') return
-
-    if(!user) {
-      throw new Error('You must be logged in')
-    }
-
-    const ask = {
-      content: question,
-      author: {
-        name: user.name,
-        avatar: user.avatar
-      },
-      isHighLighted: false,
-      isAnswered: false
-    }
-
-    await database.ref(`/rooms/${roomId}/questions`).push(ask)
-
-    setNewQuestion('')
-  }
-
   return(
     <div id="page-room">
       <header>
