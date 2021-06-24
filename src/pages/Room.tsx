@@ -3,6 +3,7 @@ import { useParams } from 'react-router'
 import logoImg from '../assets/images/logo.svg'
 
 import { Button } from '../components/Button'
+import { Question } from '../components/Question'
 import { RoomCode } from '../components/RoomCode'
 import { useAuth } from '../hooks/useAuth'
 import { database } from '../services/firebase'
@@ -20,6 +21,7 @@ type FirebaseQuestionsType = Record<string, {
 }>
 
 type QuestionType = {
+  id: string
   author: {
     name: string
     avatar: string
@@ -132,7 +134,13 @@ function Room() {
           </div>
         </form>
 
-        {JSON.stringify(questions)}
+        <div className="question-list">
+          {questions.map(({id, content, author}) => <Question 
+            key={id}
+            content={content}  
+            author={author}
+          />)}
+        </div>
       </main>
     </div>
   )
