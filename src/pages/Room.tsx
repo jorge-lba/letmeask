@@ -133,23 +133,21 @@ function Room() {
               content={content}  
               author={author}
             >
-              <div className="question-button">
-                <button
-                  className={`like-button ${likeId && 'liked'}`}
-                  type="button"
-                  aria-label="Marcar como gostei"
-                  onClick={() => handleLikeQuestion(id, likeId)}
-                >
-                  { likeCount > 0 && <span>{likeCount}</span> }
-                  <Icon option='like' type='svg' />
+              <button
+                className={`like-button ${likeId && 'liked'}`}
+                type="button"
+                aria-label="Marcar como gostei"
+                onClick={() => handleLikeQuestion(id, likeId)}
+              >
+                { likeCount > 0 && <span>{likeCount}</span> }
+                <Icon option='like' type='svg' />
+              </button>
+              {
+                user?.id === author.id 
+                && <button onClick={() => handleDeleteQuestion(id)}>
+                  <Icon option='delete' type='img' />
                 </button>
-                {
-                  user?.id === author.id 
-                  && <button onClick={() => handleDeleteQuestion(id)}>
-                    <Icon option='delete' type='img' />
-                  </button>
-                }
-              </div>
+              }
             </Question>
           )}
         </div>
