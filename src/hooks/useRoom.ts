@@ -4,6 +4,7 @@ import { useAuth } from "./useAuth"
 
 type FirebaseQuestionsType = Record<string, {
   author: {
+    id: string
     name: string
     avatar: string
   }
@@ -18,6 +19,7 @@ type FirebaseQuestionsType = Record<string, {
 type QuestionType = {
   id: string
   author: {
+    id: string
     name: string
     avatar: string
   }
