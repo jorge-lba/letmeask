@@ -37,10 +37,15 @@ function Home(){
     if(!roomRef.exists()){
       alert('Room does not exists.')
       return
-    }else {
-      history.push(`/rooms/${code}`)
+    }
+    
+    if(roomRef.val().endedAt){
+      alert('Room already closed.')
+      return
     }
 
+    history.push(`/rooms/${code}`)
+  
   }
 
   return (
