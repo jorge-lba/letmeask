@@ -37,6 +37,7 @@ function Room() {
     const ask = {
       content: question,
       author: {
+        id: user.id,
         name: user.name,
         avatar: user.avatar
       },
