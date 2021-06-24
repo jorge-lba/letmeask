@@ -1,8 +1,9 @@
-import { FormEvent, useEffect, useState } from 'react'
+import { FormEvent, useState } from 'react'
 import { useParams } from 'react-router'
 import logoImg from '../assets/images/logo.svg'
 
 import { Button } from '../components/Button'
+import { Icon } from '../components/Icon'
 import { Question } from '../components/Question'
 import { RoomCode } from '../components/RoomCode'
 import { useAuth } from '../hooks/useAuth'
@@ -96,11 +97,22 @@ function Room() {
         </form>
 
         <div className="question-list">
-          {questions.map(({id, content, author}) => <Question 
-            key={id}
-            content={content}  
-            author={author}
-          />)}
+          {questions.map(({id, content, author}) => 
+            <Question 
+              key={id}
+              content={content}  
+              author={author}
+            >
+              <button
+                className="like-button"
+                type="button"
+                aria-label="Marcar como gostei"
+              >
+                <span>10</span>
+                <Icon option='like' />
+              </button>
+            </Question>
+          )}
         </div>
       </main>
     </div>
