@@ -1,33 +1,16 @@
-import { FormEvent, useEffect, useState } from 'react'
+import { FormEvent, useState } from 'react'
 import { useParams } from 'react-router'
 import logoImg from '../assets/images/logo.svg'
 
 import { Button } from '../components/Button'
+import { Icon } from '../components/Icon'
+import { Question } from '../components/Question'
 import { RoomCode } from '../components/RoomCode'
 import { useAuth } from '../hooks/useAuth'
+import { useRoom } from '../hooks/useRoom'
 import { database } from '../services/firebase'
 
 import '../styles/room.scss'
-
-type FirebaseQuestionsType = Record<string, {
-  author: {
-    name: string
-    avatar: string
-  }
-  content: string
-  isAnswered: boolean
-  isHighLighted: boolean
-}>
-
-type QuestionType = {
-  author: {
-    name: string
-    avatar: string
-  }
-  content: string
-  isAnswered: boolean
-  isHighLighted: boolean
-}
 
 type RoomParamsType = {
   id: string
@@ -37,28 +20,9 @@ function Room() {
   const { user } = useAuth()
   const { id: roomId } = useParams<RoomParamsType>()
   const [ newQuestion, setNewQuestion ] = useState('')
-  const [ questions, setQuestions ] = useState<QuestionType[]>([])
-  const [ title, setTitle ] = useState('')
 
-  useEffect( () => {
-    const roomRef = database.ref(`/rooms/${roomId}`)
-
-    roomRef.on('value', room => {
-      const databaseRoom = room.val()
-      const firebaseQuestions: FirebaseQuestionsType = databaseRoom.questions ?? {}
-      const parsedQuestions = Object.entries(firebaseQuestions)
-        .map(([id, value]) => {
-          return{
-            id,
-            ...value
-          }
-        })
-      
-      setTitle(databaseRoom.title)
-      setQuestions(parsedQuestions)
-    })
-  }, [roomId] )
-
+  const { questions, title } = useRoom(roomId)
+  
   async function handleSendQuestion(event: FormEvent) {
     event.preventDefault()
 
@@ -83,6 +47,17 @@ function Room() {
     await database.ref(`/rooms/${roomId}/questions`).push(ask)
 
     setNewQuestion('')
+  }
+
+  async function handleLikeQuestion(questionId: string, likeId: string | undefined) {
+    const likeRef = await database
+      .ref(`/rooms/${roomId}/questions/${questionId}/likes`)
+    
+    !likeId 
+      ? likeRef.push({
+        authorId: user?.id
+      })
+      : likeRef.child(likeId).remove()
   }
 
   return(
@@ -132,15 +107,31 @@ function Room() {
           </div>
         </form>
 
-        {questions.map(question => {
-          return (
-            <div style={
-              {padding: '10px'}
-            }>
-              <span><b>{question.author.name} :</b> {question.content}</span>
-            </div>
-          )
-        })}
+        <div className="question-list">
+          {questions.map(({
+              id, 
+              content, 
+              author, 
+              likeCount,
+              likeId
+          }) => 
+            <Question 
+              key={id}
+              content={content}  
+              author={author}
+            >
+              <button
+                className={`like-button ${likeId && 'liked'}`}
+                type="button"
+                aria-label="Marcar como gostei"
+                onClick={() => handleLikeQuestion(id, likeId)}
+              >
+                { likeCount > 0 && <span>{likeCount}</span> }
+                <Icon option='like' />
+              </button>
+            </Question>
+          )}
+        </div>
       </main>
     </div>
   )
