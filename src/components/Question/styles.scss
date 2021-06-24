@@ -35,6 +35,12 @@
       }
     }
 
+    .question-button {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
     button {
       border: 0;
       background: transparent;
