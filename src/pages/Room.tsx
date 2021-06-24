@@ -17,7 +17,7 @@ type RoomParamsType = {
 }
 
 function Room() {
-  const { user } = useAuth()
+  const { user, signInWithGoogle } = useAuth()
   const { id: roomId } = useParams<RoomParamsType>()
   const [ newQuestion, setNewQuestion ] = useState('')
 
@@ -37,6 +37,7 @@ function Room() {
     const ask = {
       content: question,
       author: {
+        id: user.id,
         name: user.name,
         avatar: user.avatar
       },
@@ -101,7 +102,7 @@ function Room() {
                   <span>{ user.name }</span>
                 </div>
               ) 
-              : (<span>Para enviar uma pergunta, <button>faça seu login</button>.</span>)
+              : (<span>Para enviar uma pergunta, <button onClick={signInWithGoogle}>faça seu login</button>.</span>)
             }
             <Button type="submit" disabled={!user}>Enviar pergunta</Button>
           </div>
