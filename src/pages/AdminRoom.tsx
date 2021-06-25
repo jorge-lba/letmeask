@@ -1,7 +1,6 @@
 import { useHistory, useParams } from 'react-router'
 
 import logoImg from '../assets/images/logo.svg'
-import deleteImg from '../assets/images/delete.svg'
 
 import { Button } from '../components/Button'
 import { Question } from '../components/Question'
@@ -10,6 +9,9 @@ import { useRoom } from '../hooks/useRoom'
 
 import '../styles/room.scss'
 import { database } from '../services/firebase'
+import { Icon } from '../components/Icon'
+import { useAuth } from '../hooks/useAuth'
+import { useEffect } from 'react'
 
 type RoomParamsType = {
   id: string
@@ -19,6 +21,19 @@ function AdminRoom() {
   const history = useHistory()
   const { id: roomId } = useParams<RoomParamsType>()
   const { questions, title } = useRoom(roomId)
+  const { user } = useAuth()
+
+  useEffect(() => {
+    handleRedirectIfNotAnAdmin()
+  }, [user])
+  
+  async function handleRedirectIfNotAnAdmin() {
+    const roomRef = database.ref(`/rooms/${roomId}`)
+      const authorId = await (await roomRef.child('authorId').get()).val()
+      const isAdmin = authorId === user?.id
+
+      !isAdmin && history.push(`/rooms/${roomId}`)
+  }
 
   async function handleEndRoom() {
     await database.ref(`/rooms/${roomId}`).update({
@@ -38,6 +53,22 @@ function AdminRoom() {
         .ref(`/rooms/${roomId}/questions/${questionId}`)
         .remove()
     } 
+  }
+
+  async function handleCheckQuestionAsAnswered(questionId: string){
+    await database
+      .ref(`/rooms/${roomId}/questions/${questionId}`)
+      .update({
+        isAnswered: true
+      })
+  }
+
+  async function handleHighlightQuestion(questionId: string){
+    await database
+      .ref(`/rooms/${roomId}/questions/${questionId}`)
+      .update({
+        isHighLighted: true
+      })
   }
   
   return(
@@ -75,17 +106,35 @@ function AdminRoom() {
         </div>
 
         <div className="question-list">
-          {questions.map(({id, content, author}) => 
+          {questions.map(({id, content, author, isAnswered, isHighLighted}) => 
             <Question 
               key={id}
               content={content}  
               author={author}
-            >
+              isAnswered={isAnswered}
+              isHighLighted={isHighLighted}
+            > 
+              { !isAnswered && (
+                <>
+                  <button
+                    type="button"
+                    onClick={() => handleCheckQuestionAsAnswered(id)}
+                  >
+                    <Icon option="check" type='img' alt="Marcar pergunta como respondida" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleHighlightQuestion(id)}
+                  >
+                    <Icon option="answer" type='img' alt="Dar destaque à pergunta" />
+                  </button>
+                </>
+              ) }
               <button
                 type="button"
                 onClick={() => handleDeleteQuestion(id)}
               >
-                <img src={deleteImg} alt="Remover pergunta" />
+                <Icon option="delete" type='img' alt="Remover pergunta" />
               </button>
             </Question>
           )}
