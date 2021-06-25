@@ -10,6 +10,8 @@ import { useRoom } from '../hooks/useRoom'
 import '../styles/room.scss'
 import { database } from '../services/firebase'
 import { Icon } from '../components/Icon'
+import { useAuth } from '../hooks/useAuth'
+import { useEffect } from 'react'
 
 type RoomParamsType = {
   id: string
@@ -19,6 +21,18 @@ function AdminRoom() {
   const history = useHistory()
   const { id: roomId } = useParams<RoomParamsType>()
   const { questions, title } = useRoom(roomId)
+  const { user } = useAuth()
+
+  useEffect(() => {
+    (async () => {
+      const roomRef = database.ref(`/rooms/${roomId}`)
+      const authorId = await (await roomRef.child('authorId').get()).val()
+      const isAdmin = authorId === user?.id
+
+
+      !isAdmin && history.push(`/rooms/${roomId}`) 
+    })()
+  }, [user, roomId, history])
 
   async function handleEndRoom() {
     await database.ref(`/rooms/${roomId}`).update({
