@@ -1,4 +1,5 @@
 import { FormEvent, useState } from 'react'
+import cx from 'classnames'
 import { useParams } from 'react-router'
 import logoImg from '../assets/images/logo.svg'
 
@@ -126,30 +127,39 @@ function Room() {
               content, 
               author, 
               likeCount,
-              likeId
+              likeId,
+              isAnswered,
+              isHighLighted
           }) => 
             <Question 
               key={id}
               content={content}  
               author={author}
+              isAnswered={isAnswered}
+              isHighLighted={isHighLighted}
             >
-              <div className="question-button">
-                <button
-                  className={`like-button ${likeId && 'liked'}`}
-                  type="button"
-                  aria-label="Marcar como gostei"
-                  onClick={() => handleLikeQuestion(id, likeId)}
-                >
-                  { likeCount > 0 && <span>{likeCount}</span> }
-                  <Icon option='like' type='svg' />
+              <button
+                className={ cx(
+                  'like-button',
+                  {
+                    liked: likeId,
+                    disabled: isAnswered
+                  }
+                )}
+                disabled={isAnswered}
+                type="button"
+                aria-label="Marcar como gostei"
+                onClick={() => handleLikeQuestion(id, likeId)}
+              >
+                { likeCount > 0 && <span>{likeCount}</span> }
+                <Icon option='like' type='svg' />
+              </button>
+              {
+                user?.id === author.id && !isAnswered
+                && <button onClick={() => handleDeleteQuestion(id)}>
+                  <Icon option='delete' type='img' />
                 </button>
-                {
-                  user?.id === author.id 
-                  && <button onClick={() => handleDeleteQuestion(id)}>
-                    <Icon option='delete' type='img' />
-                  </button>
-                }
-              </div>
+              }
             </Question>
           )}
         </div>
