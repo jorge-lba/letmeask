@@ -24,15 +24,16 @@ function AdminRoom() {
   const { user } = useAuth()
 
   useEffect(() => {
-    (async () => {
-      const roomRef = database.ref(`/rooms/${roomId}`)
+    handleRedirectIfNotAnAdmin()
+  }, [user])
+  
+  async function handleRedirectIfNotAnAdmin() {
+    const roomRef = database.ref(`/rooms/${roomId}`)
       const authorId = await (await roomRef.child('authorId').get()).val()
       const isAdmin = authorId === user?.id
 
-
-      !isAdmin && history.push(`/rooms/${roomId}`) 
-    })()
-  }, [user, roomId, history])
+      !isAdmin && history.push(`/rooms/${roomId}`)
+  }
 
   async function handleEndRoom() {
     await database.ref(`/rooms/${roomId}`).update({
