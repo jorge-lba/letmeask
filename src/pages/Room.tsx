@@ -1,17 +1,16 @@
 import { FormEvent, useState } from 'react'
 import cx from 'classnames'
 import { useParams } from 'react-router'
-import logoImg from '../assets/images/logo.svg'
 
 import { Button } from '../components/Button'
 import { Icon } from '../components/Icon'
 import { Question } from '../components/Question'
-import { RoomCode } from '../components/RoomCode'
 import { useAuth } from '../hooks/useAuth'
 import { useRoom } from '../hooks/useRoom'
 import { database } from '../services/firebase'
 
 import '../styles/room.scss'
+import { Header } from '../components/Header'
 
 type RoomParamsType = {
   id: string
@@ -76,12 +75,7 @@ function Room() {
 
   return(
     <div id="page-room">
-      <header>
-        <div className="content">
-          <img src={logoImg} alt="Letmeask" />
-          <RoomCode code={ roomId }/>
-        </div>
-      </header>
+      <Header />
       
       <main>
         <div className="room-title">
