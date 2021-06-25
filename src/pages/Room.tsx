@@ -1,4 +1,5 @@
 import { FormEvent, useState } from 'react'
+import cx from 'classnames'
 import { useParams } from 'react-router'
 import logoImg from '../assets/images/logo.svg'
 
@@ -126,15 +127,26 @@ function Room() {
               content, 
               author, 
               likeCount,
-              likeId
+              likeId,
+              isAnswered,
+              isHighLighted
           }) => 
             <Question 
               key={id}
               content={content}  
               author={author}
+              isAnswered={isAnswered}
+              isHighLighted={isHighLighted}
             >
               <button
-                className={`like-button ${likeId && 'liked'}`}
+                className={ cx(
+                  'like-button',
+                  {
+                    liked: likeId,
+                    disabled: isAnswered
+                  }
+                )}
+                disabled={isAnswered}
                 type="button"
                 aria-label="Marcar como gostei"
                 onClick={() => handleLikeQuestion(id, likeId)}
@@ -143,7 +155,7 @@ function Room() {
                 <Icon option='like' type='svg' />
               </button>
               {
-                user?.id === author.id 
+                user?.id === author.id && !isAnswered
                 && <button onClick={() => handleDeleteQuestion(id)}>
                   <Icon option='delete' type='img' />
                 </button>

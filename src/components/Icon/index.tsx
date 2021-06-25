@@ -5,7 +5,7 @@ import answerImg from '../../assets/images/answer.svg'
 
 
 type OptionsIconType = {
-  option: 'like' | 'delete'
+  option: 'like' | 'delete' | 'check' | 'answer'
   type: 'svg'|'img'
   alt?: string
 }
