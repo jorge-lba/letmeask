@@ -1,6 +1,6 @@
 # Let Me Ask
 
-![Let%20Me%20Ask%200bd5f6cd3f9341048636d91460d95422/Pgina_inicial.png](Let%20Me%20Ask%200bd5f6cd3f9341048636d91460d95422/Pgina_inicial.png)
+![Home Let me ask](https://github.com/jorge-lba/letmeask/blob/main/readmeFiles/Pgina_inicial.png?raw=true)
 
 Interaja com o seu público através do **LetMeAsk**, uma plataforma de gerenciamento de peguntas.
 
@@ -54,7 +54,7 @@ Aqui você vai ver algumas funcionalidades que desenvolvi para incrementar um po
 - [x]  [Regras](https://www.notion.so/86c1b697b0ebf3d9dbbd821d2faa1d71) mais restritas para o Firebase Realtime Database.
 - [x]  Retorno visual ao copiar o código da sala:
 
-    ![Let%20Me%20Ask%200bd5f6cd3f9341048636d91460d95422/clipboard-effect.gif](Let%20Me%20Ask%200bd5f6cd3f9341048636d91460d95422/clipboard-effect.gif)
+    ![Efeito no botão copiar código da sala](https://github.com/jorge-lba/letmeask/blob/main/readmeFiles/clipboard-effect.gif?raw=true)
 
 - [x]  Redirecionamento para a pagina de admin quando o usuário cria uma sala.
 - [x]  Permitir que apenas o criador da sala acesse o painel admin.
