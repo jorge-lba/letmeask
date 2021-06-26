@@ -30,10 +30,18 @@ type QuestionType = {
   likeId: string | undefined
 }
 
+type QuestionsDivisorType = {
+  open: QuestionType[]
+  isAnswered: QuestionType[]
+  isHighLighted: QuestionType[]
+}
+
 function useRoom(roomId: string){
   const { user } = useAuth()
   const [ questions, setQuestions ] = useState<QuestionType[]>([])
   const [ title, setTitle ] = useState('')
+  const [questionsAnswered, setQuestionsAnswered] = useState<QuestionType[]>([])
+  const [questionsHighLighted, setQuestionsHighLighted] = useState<QuestionType[]>([])
 
   useEffect( () => {
     const roomRef = database.ref(`/rooms/${roomId}`)
@@ -50,9 +58,28 @@ function useRoom(roomId: string){
             likeId: Object.entries(value.likes ?? {}).find(([key, like]) => like.authorId === user?.id)?.[0]
           }
         })
+        .sort((a, b) => b.likeCount - a.likeCount)
+        .reduce((current, next) => {
+          if(next.isAnswered){
+            current.isAnswered.push(next)
+          } else if(next.isHighLighted){
+            current.isHighLighted.push(next)
+          } else {
+            current.open.push(next)
+          }
+
+          return current
+        }, {
+          open:[],
+          isAnswered: [],
+          isHighLighted: []
+        } as QuestionsDivisorType)
       
       setTitle(databaseRoom.title)
-      setQuestions(parsedQuestions)
+
+      setQuestions(parsedQuestions.open)
+      setQuestionsAnswered(parsedQuestions.isAnswered)
+      setQuestionsHighLighted(parsedQuestions.isHighLighted)
     })
 
     return () => {
@@ -60,7 +87,7 @@ function useRoom(roomId: string){
     }
   }, [roomId, user?.id] )
 
-  return { questions, title }
+  return { questions, questionsAnswered, questionsHighLighted, title }
 }
 
 export { useRoom }

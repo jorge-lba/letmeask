@@ -1,46 +1,73 @@
-# Getting Started with Create React App
+# Let Me Ask
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![Let%20Me%20Ask%200bd5f6cd3f9341048636d91460d95422/Pgina_inicial.png](Let%20Me%20Ask%200bd5f6cd3f9341048636d91460d95422/Pgina_inicial.png)
 
-## Available Scripts
+Interaja com o seu público através do **LetMeAsk**, uma plataforma de gerenciamento de peguntas.
 
-In the project directory, you can run:
+Com o **LetMeAsk**  você pode criar uma sala para receber perguntas do seu público e gerenciá-las através de um painel **administrador** podendo dar prioridade, finalizar e excluir perguntas.
 
-### `yarn start`
+Inicie agora essa nova experiencia acessando a nossa plataforma → **[LetMeAsk](https://dev-letmeask.herokuapp.com/)**
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+**obs.:** Este projeto foi desenvolvido durante a **<nlw/> together** organizada pela **[rocketseat](https://rocketseat.com.br/)**.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## 🧪 Tecnologias
 
-### `yarn test`
+Esse projeto foi desenvolvido utilizando as seguintes tecnologias:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- [React](https://reactjs.org/)
+- [Firebase](https://firebase.google.com/)
+- [TypeScript](https://www.typescriptlang.org/)
 
-### `yarn build`
+## 🚀 Iniciando o projeto
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Clone o projeto e acesse a pasta letmeask:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```
+$ git clone <https://github.com/guilhermecapitao/letmeask.git>
+$ cd letmeask
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Siga os passos abaixo:
 
-### `yarn eject`
+```
+# Install the dependencies
+$ yarn
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+# Start the project
+$ yarn start
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+O aplicativo estará disponível para acesso em seu navegador em [http://localhost:3000](http://localhost:3000/)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## 🔖 Layout
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Você pode ver o layout do projeto através do link abaixo:
 
-## Learn More
+- [Layout Web](https://www.figma.com/file/u0BQK8rCf2KgzcukdRRCWh/Letmeask/duplicate)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Lembrando que você precisa ter uma conta no [Figma](http://figma.com/) para acessar.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 👨‍💻 Milha Extra
+
+Aqui você vai ver algumas funcionalidades que desenvolvi para incrementar um pouco esse projeto.
+
+- [x]  [Regras](https://www.notion.so/86c1b697b0ebf3d9dbbd821d2faa1d71) mais restritas para o Firebase Realtime Database.
+- [x]  Retorno visual ao copiar o código da sala:
+
+    ![Let%20Me%20Ask%200bd5f6cd3f9341048636d91460d95422/clipboard-effect.gif](Let%20Me%20Ask%200bd5f6cd3f9341048636d91460d95422/clipboard-effect.gif)
+
+- [x]  Redirecionamento para a pagina de admin quando o usuário cria uma sala.
+- [x]  Permitir que apenas o criador da sala acesse o painel admin.
+- [x]  Redirecionar usuário que acesse painel admin de uma sala que não foi criada por eles.
+- [x]  Permitir que o usuário que enviou a pergunta apague a mesma.
+    - [x]  Não pode ser possível apagar perguntas destacadas.
+    - [x]  Não pode ser possível apagar perguntas respondidas.
+- [x]  Organizar order de prioridade com base na quantidade de likes.
+- [x]  Colocar no topo as perguntas destacadas.
+- [x]  Colocar no fim da lista as perguntas já respondidas.
+- [x]  Remover perguntas respondidas da sala ( essa perguntas permanecem visíveis para o admim )
+- [x]  Mostrar quantidade de likes para o admin.
+- [ ]  Temas Light / Dark
+    - [x]  Contexto
+    - [ ]  Botão
+    - [ ]  CSS
