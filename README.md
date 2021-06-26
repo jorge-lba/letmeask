@@ -51,7 +51,7 @@ Lembrando que você precisa ter uma conta no [Figma](http://figma.com/) para ace
 
 Aqui você vai ver algumas funcionalidades que desenvolvi para incrementar um pouco esse projeto.
 
-- [x]  [Regras](https://www.notion.so/86c1b697b0ebf3d9dbbd821d2faa1d71) mais restritas para o Firebase Realtime Database.
+- [x]  [Regras](https://gist.github.com/jorge-lba/86c1b697b0ebf3d9dbbd821d2faa1d71) mais restritas para o Firebase Realtime Database.
 - [x]  Retorno visual ao copiar o código da sala:
 
     ![Efeito no botão copiar código da sala](https://github.com/jorge-lba/letmeask/blob/main/readmeFiles/clipboard-effect.gif?raw=true)
