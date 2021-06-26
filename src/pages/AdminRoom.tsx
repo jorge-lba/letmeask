@@ -21,7 +21,7 @@ function AdminRoom() {
   const history = useHistory()
   const { id: roomId } = useParams<RoomParamsType>()
   const { questions, title } = useRoom(roomId)
-  const { user } = useAuth()
+  const { user, signInWithGoogle } = useAuth()
 
   useEffect(() => {
     handleRedirectIfNotAnAdmin()
@@ -29,10 +29,14 @@ function AdminRoom() {
   
   async function handleRedirectIfNotAnAdmin() {
     const roomRef = database.ref(`/rooms/${roomId}`)
-      const authorId = await (await roomRef.child('authorId').get()).val()
-      const isAdmin = authorId === user?.id
+    const authorId = await (await roomRef.child('authorId').get()).val()
 
-      !isAdmin && history.push(`/rooms/${roomId}`)
+    const isAdmin = authorId === user?.id
+
+    if(!isAdmin && !!user?.id){
+      history.push(`/rooms/${roomId}`)
+    }
+
   }
 
   async function handleEndRoom() {
@@ -106,38 +110,41 @@ function AdminRoom() {
         </div>
 
         <div className="question-list">
-          {questions.map(({id, content, author, isAnswered, isHighLighted}) => 
-            <Question 
-              key={id}
-              content={content}  
-              author={author}
-              isAnswered={isAnswered}
-              isHighLighted={isHighLighted}
-            > 
-              { !isAnswered && (
-                <>
-                  <button
-                    type="button"
-                    onClick={() => handleCheckQuestionAsAnswered(id)}
-                  >
-                    <Icon option="check" type='img' alt="Marcar pergunta como respondida" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleHighlightQuestion(id)}
-                  >
-                    <Icon option="answer" type='img' alt="Dar destaque à pergunta" />
-                  </button>
-                </>
-              ) }
-              <button
-                type="button"
-                onClick={() => handleDeleteQuestion(id)}
-              >
-                <Icon option="delete" type='img' alt="Remover pergunta" />
-              </button>
-            </Question>
-          )}
+          { 
+            user?.id 
+              ? questions.map(({id, content, author, isAnswered, isHighLighted}) => 
+              <Question 
+                key={id}
+                content={content}  
+                author={author}
+                isAnswered={isAnswered}
+                isHighLighted={isHighLighted}
+              > 
+                { !isAnswered && (
+                  <>
+                    <button
+                      type="button"
+                      onClick={() => handleCheckQuestionAsAnswered(id)}
+                    >
+                      <Icon option="check" type='img' alt="Marcar pergunta como respondida" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleHighlightQuestion(id)}
+                    >
+                      <Icon option="answer" type='img' alt="Dar destaque à pergunta" />
+                    </button>
+                  </>
+                ) }
+                <button
+                  type="button"
+                  onClick={() => handleDeleteQuestion(id)}
+                >
+                  <Icon option="delete" type='img' alt="Remover pergunta" />
+                </button>
+              </Question>
+            ) : <span>Para acessar essa essa pagina <button className="btn-login" onClick={signInWithGoogle}>faça seu login</button>.</span>
+          }
         </div>
       </main>
     </div>
