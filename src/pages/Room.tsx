@@ -131,6 +131,7 @@ function Room() {
               author={author}
               isAnswered={isAnswered}
               isHighLighted={isHighLighted}
+              likes={likeCount}
             >
               <button
                 className={ cx(
@@ -145,7 +146,6 @@ function Room() {
                 aria-label="Marcar como gostei"
                 onClick={() => handleLikeQuestion(id, likeId)}
               >
-                { likeCount > 0 && <span>{likeCount}</span> }
                 <Icon option='like' type='svg' />
               </button>
               {
@@ -174,6 +174,7 @@ function Room() {
               author={author}
               isAnswered={isAnswered}
               isHighLighted={isHighLighted}
+              likes={likeCount}
             >
               <button
                 className={ cx(
@@ -188,7 +189,6 @@ function Room() {
                 aria-label="Marcar como gostei"
                 onClick={() => handleLikeQuestion(id, likeId)}
               >
-                { likeCount > 0 && <span>{likeCount}</span> }
                 <Icon option='like' type='svg' />
               </button>
               {
