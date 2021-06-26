@@ -21,7 +21,7 @@ function Room() {
   const { id: roomId } = useParams<RoomParamsType>()
   const [ newQuestion, setNewQuestion ] = useState('')
 
-  const { questions, title } = useRoom(roomId)
+  const { questions, questionsHighLighted, title } = useRoom(roomId)
   
   async function handleSendQuestion(event: FormEvent) {
     event.preventDefault()
@@ -82,7 +82,7 @@ function Room() {
           <h1>Sala - {title}</h1>
           { 
             (() => {
-              const countQuestions = questions.length
+              const countQuestions = questions.length + questionsHighLighted.length
               return (
                 countQuestions > 0 && <span>{
                   countQuestions < 2 
@@ -114,6 +114,49 @@ function Room() {
             <Button type="submit" disabled={!user}>Enviar pergunta</Button>
           </div>
         </form>
+
+        <div className="question-list">
+          {questionsHighLighted.map(({
+              id, 
+              content, 
+              author, 
+              likeCount,
+              likeId,
+              isAnswered,
+              isHighLighted
+          }) => 
+            <Question 
+              key={id}
+              content={content}  
+              author={author}
+              isAnswered={isAnswered}
+              isHighLighted={isHighLighted}
+            >
+              <button
+                className={ cx(
+                  'like-button',
+                  {
+                    liked: likeId,
+                    disabled: isAnswered
+                  }
+                )}
+                disabled={isAnswered}
+                type="button"
+                aria-label="Marcar como gostei"
+                onClick={() => handleLikeQuestion(id, likeId)}
+              >
+                { likeCount > 0 && <span>{likeCount}</span> }
+                <Icon option='like' type='svg' />
+              </button>
+              {
+                user?.id === author.id && !isAnswered && !isHighLighted
+                && <button onClick={() => handleDeleteQuestion(id)}>
+                  <Icon option='delete' type='img' />
+                </button>
+              }
+            </Question>
+          )}
+        </div>
 
         <div className="question-list">
           {questions.map(({

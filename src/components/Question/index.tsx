@@ -11,6 +11,7 @@ type QuestionProps =  {
   children?: ReactNode
   isAnswered: boolean
   isHighLighted: boolean
+  likes?: number
 }
 
 function Question({
@@ -18,7 +19,8 @@ function Question({
   author,
   children,
   isAnswered = false,
-  isHighLighted = false
+  isHighLighted = false,
+  likes
 }: QuestionProps) {
   return (
     <div 
@@ -29,7 +31,10 @@ function Question({
           highlighted: isHighLighted && !isAnswered
         }
       )}>
-      <p>{content}</p>
+      <div className="content">
+        { likes ? <span className='likes'>{likes} {likes > 1 ? 'likes' : 'like'}</span> : <span>0 likes</span>}
+        <p>{content}</p>
+      </div>
       <footer>
         <div className="user-info">
           <img src={author.avatar} alt={author.name} />

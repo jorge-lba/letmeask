@@ -20,7 +20,7 @@ type RoomParamsType = {
 function AdminRoom() {
   const history = useHistory()
   const { id: roomId } = useParams<RoomParamsType>()
-  const { questions, title } = useRoom(roomId)
+  const { questions, questionsAnswered, questionsHighLighted, title } = useRoom(roomId)
   const { user, signInWithGoogle } = useAuth()
 
   useEffect(() => {
@@ -97,7 +97,7 @@ function AdminRoom() {
           <h1>Sala - {title}</h1>
           { 
             (() => {
-              const countQuestions = questions.length
+              const countQuestions = questions.length + questionsHighLighted.length
               return (
                 countQuestions > 0 && <span>{
                   countQuestions < 2 
@@ -112,13 +112,45 @@ function AdminRoom() {
         <div className="question-list">
           { 
             user?.id 
-              ? questions.map(({id, content, author, isAnswered, isHighLighted}) => 
+              ? questionsHighLighted.map(({id, content, author, isAnswered, isHighLighted, likeCount}) => 
               <Question 
                 key={id}
                 content={content}  
                 author={author}
                 isAnswered={isAnswered}
                 isHighLighted={isHighLighted}
+                likes={likeCount}
+              > 
+                { !isAnswered && (
+                  <button
+                    type="button"
+                    onClick={() => handleCheckQuestionAsAnswered(id)}
+                  >
+                    <Icon option="check" type='img' alt="Marcar pergunta como respondida" />
+                  </button>
+                ) }
+                <button
+                  type="button"
+                  onClick={() => handleDeleteQuestion(id)}
+                >
+                  <Icon option="delete" type='img' alt="Remover pergunta" />
+                </button>
+              </Question>
+            ) : <span>Para acessar essa essa pagina <button className="btn-login" onClick={signInWithGoogle}>faça seu login</button>.</span>
+          }
+        </div>
+
+        <div className="question-list">
+          { 
+            user?.id 
+              ? questions.map(({id, content, author, isAnswered, isHighLighted, likeCount}) => 
+              <Question 
+                key={id}
+                content={content}  
+                author={author}
+                isAnswered={isAnswered}
+                isHighLighted={isHighLighted}
+                likes={likeCount}
               > 
                 { !isAnswered && (
                   <>
@@ -143,7 +175,30 @@ function AdminRoom() {
                   <Icon option="delete" type='img' alt="Remover pergunta" />
                 </button>
               </Question>
-            ) : <span>Para acessar essa essa pagina <button className="btn-login" onClick={signInWithGoogle}>faça seu login</button>.</span>
+            ) : <></>
+          }
+        </div>
+
+        <div className="question-list">
+          { 
+            user?.id 
+              ? questionsAnswered.map(({id, content, author, isAnswered, isHighLighted, likeCount}) => 
+              <Question 
+                key={id}
+                content={content}  
+                author={author}
+                isAnswered={isAnswered}
+                isHighLighted={isHighLighted}
+                likes={likeCount}
+              > 
+                <button
+                  type="button"
+                  onClick={() => handleDeleteQuestion(id)}
+                >
+                  <Icon option="delete" type='img' alt="Remover pergunta" />
+                </button>
+              </Question>
+            ) : <></>
           }
         </div>
       </main>
